@@ -1,0 +1,52 @@
+When you join a new project, you clone the repository to work on it locally
+git clone https://github.com/username/repository.git
+======================================================================================================
+Before committing, you want to verify which files have been modified or staged.
+git status
+======================================================================================================
+After making changes, add files before committing.
+git add file_name.txt
+# Add all files
+git add .
+=======================================================================================================
+Once changes are staged, commit them to the local repository.
+git commit -m "Fixed login bug"
+=========================================================================================================
+After committing, push changes to the main branch so others can see your work.
+git push origin main
+==========================================================================================================
+Before making any new changes, pull the latest changes to avoid conflict
+git pull origin main
+=========================================================================================================
+When adding new features or working on a bug fix, create a separate branch
+git branch feature-branch
+git checkout feature-branch
+# or create and switch to the new branch
+git checkout -b feature-branch
+=========================================================================================================
+After testing a feature branch, merge it into the main branch.
+git checkout main
+git merge feature-branch
+==============================================================================================================
+Use revert if you need to undo a previous commit without removing history
+git revert <commit_hash>
+===============================================================================================================
+If you want to discard local changes and revert to a specific state.
+git reset --hard <commit_hash>
+===============================================================================================================
+When you need to switch branches but don’t want to lose your local changes.
+git stash
+====================================================================================================================
+Apply stashed changes after switching back to the branch.
+git stash pop
+==================================================================================================================
+View commit history to track changes made over time
+git log
+==================================================================================================================
+Tag a commit when you release a new version of your application
+git tag v1.0.0
+git push origin v1.0.0
+=====================================================================================================================
+To analyze the changes between different versions of your code
+git diff <commit1> <commit2>
+==================================================================================================================

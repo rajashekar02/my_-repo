@@ -1,0 +1,104 @@
+sudo useradd -m -d /opt/tomcat -U -s /bin/false tomcat
+By supplying /bin/false as the user’s default shell, you ensure that it’s not possible to log in as tomcat.
+
+sudo apt update
+sudo apt install default-jdk
+java -version
+cd /tmp
+wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.20/bin/apache-tomcat-10.0.20.tar.gz
+The wget command downloads resources from the Internet.
+
+Then, extract the archive you downloaded by running:
+
+sudo tar xzvf apache-tomcat-10*tar.gz -C /opt/tomcat --strip-components=1
+sudo chown -R tomcat:tomcat /opt/tomcat/
+sudo chmod -R u+x /opt/tomcat/bin
+
+
+ Configuring Admin Users
+ 
+ sudo nano /opt/tomcat/conf/tomcat-users.xml
+ Add the following lines before the ending tag
+ <role rolename="manager-gui" />
+<user username="manager" password="manager_password" roles="manager-gui" />
+
+<role rolename="admin-gui" />
+<user username="admin" password="admin_password" roles="manager-gui,admin-gui" />
+To remove the restriction for the Manager page, open its config file for editing:
+
+sudo nano /opt/tomcat/webapps/manager/META-INF/context.xml
+Comment out the Valve definition, as shown:
+opt/tomcat/webapps/manager/META-INF/context.xml
+...
+<Context antiResourceLocking="false" privileged="true" >
+  <CookieProcessor className="org.apache.tomcat.util.http.Rfc6265CookieProcessor"
+                   sameSiteCookies="strict" />
+<!--  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->
+  <Manager sessionAttributeValueClassNameFilter="java\.lang\.(?:Boolean|Integer|Long|Number|String)|org\.apache\.catalina\.filters\.Csr>
+</Context>
+
+Save and close the file, then repeat for Host Manager:
+sudo nano /opt/tomcat/webapps/host-manager/META-INF/context.xml
+
+
+ Creating a systemd service
+ sudo update-java-alternatives -l
+ The output will be similar to this:
+
+java-1.11.0-openjdk-amd64      1111       /usr/lib/jvm/java-1.11.0-openjdk-amd64
+
+Note the path where Java resides, listed in the last column. You’ll need the path momentarily to define the service.
+
+You’ll store the tomcat service in a file named tomcat.service, under /etc/systemd/system. Create the file for editing by running:
+
+ sudo nano /etc/systemd/system/tomcat.service
+ 
+Add the following lines:
+
+/etc/systemd/system/tomcat.service
+
+[Unit]
+Description=Tomcat
+After=network.target
+
+[Service]
+Type=forking
+
+User=tomcat
+Group=tomcat
+
+Environment="JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64"
+Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom"
+Environment="CATALINA_BASE=/opt/tomcat"
+Environment="CATALINA_HOME=/opt/tomcat"
+Environment="CATALINA_PID=/opt/tomcat/temp/tomcat.pid"
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/opt/tomcat/bin/shutdown.sh
+
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+
+sudo systemctl start tomcat
+
+sudo systemctl status tomcat
+
+To enable Tomcat starting up with the system, run the following command:
+
+sudo systemctl enable tomcat
+
+— Accessing the Web Interface
+
+sudo ufw allow 8080
+
+In your browser, you can now access Tomcat by navigating to the IP address of your server:
+
+http://your_server_ip:8080
+

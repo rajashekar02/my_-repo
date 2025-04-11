@@ -1,0 +1,66 @@
+Check file permissions and hidden files in a directory.
+ls -la
+=======================================================================================================
+Navigate to the directory where the web application is hosted.
+cd /var/www/html
+==============================================================================================================
+Create a directory for a new project.
+mkdir project-folder
+============================================================================================================
+Delete unnecessary files or directories.
+rm -rf directory_name
+rm file.txt
+============================================================================================================
+Backup files or copy them to another location
+cp file.txt /destination/folder/
+cp -r directory_name /destination/folder/
+==============================================================================================================
+Move files between folders or rename them
+mv file.txt /destination/folder/
+mv old_name.txt new_name.txt
+=================================================================================================================================================
+Read the contents of a configuration file
+cat file.txt
+================================================================================================
+Check for errors in system logs
+grep "error" /var/log/syslog
+====================================================================================================================
+Check available disk space on the server
+df -h
+============================================================================================================
+Monitor server memory consumption.
+free -m
+============================================================================================================
+Check processes consuming system resource
+top
+==============================================================================================================
+Terminate a process consuming high CPU/memory.
+kill -9 <PID>
+================================================================================================================
+Find which ports are in use on a server.
+netstat -tulnp
+===============================================================================================================
+Grant execute permission to a script.
+chmod 755 script.sh
+================================================================================================================
+Change ownership of project files.
+chown user:user file.txt
+===================================================================================================================
+Backup project files or logs.
+tar -czvf archive.tar.gz folder_name
+=====================================================================================================================
+Restore files from an archived backup
+tar -xzvf archive.tar.gz
+=====================================================================================================================
+Locate configuration or log files.
+find / -name "file.txt"
+==========================================================================================================================
+Automate backups, updates, or log rotation.
+crontab -e
+# Add a cron job to run a script every day at 2 AM
+0 2 * * * /path/to/script.sh
+=====================================================================================================================
+Monitor server logs in real-time
+tail -f /var/log/syslog
+===========================================================================================================
+jenkins:/var/lib/jenkins/workspace/tomcat/target# our war files will generate

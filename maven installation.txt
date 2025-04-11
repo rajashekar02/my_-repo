@@ -1,0 +1,18 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install maven -y
+mvn -version
+ Export Maven Path Manually
+ which mvn
+Example Output:
+/usr/bin/mvn
+Set Environment Variables
+nano ~/.bashrc
+Add the following lines at the end:
+export M2_HOME=/usr/share/maven
+export PATH=$PATH:$M2_HOME/bin
+
+Reload Configuration
+source ~/.bashrc
+
+ Verify Path
+ echo $PATH
